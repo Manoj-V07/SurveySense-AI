@@ -1,0 +1,24 @@
+# Dependency Directory
+/node_modules
+
+# Environment Variables and Secrets
+.env
+.env.local
+config/env.js # In case you use a dedicated config file instead of .env
+
+# Logs and Temporary Files
+/logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/pids
+*.pid
+*.seed
+*.log
+*.tmp
+*.temp
+/dist
+
+# Editor and OS generated files
+.DS_Store
+Thumbs.db
