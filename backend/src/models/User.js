@@ -18,6 +18,12 @@ const UserSchema = new mongoose.Schema({
         enum: ['supervisor', 'enumerator'], // Strict roles for authorization
         default: 'enumerator',
     },
+    govId: {
+        type: String,
+        // unique: true, // You may want this if the ID is strictly unique
+        trim: true,
+        required: function() { return this.role === 'enumerator'; } // Required only for enumerators
+    },
 }, { timestamps: true });
 
 // Mongoose Pre-Save Hook: Hash the password before saving
