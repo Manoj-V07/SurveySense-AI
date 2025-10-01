@@ -6,7 +6,7 @@ const cors = require('cors');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware'); // <-- NEW IMPORT
 
 // Load environment variables 
-dotenv.config({ path: '../.env' }); 
+dotenv.config(); 
 
 // Connect to Database
 connectDB(); 
