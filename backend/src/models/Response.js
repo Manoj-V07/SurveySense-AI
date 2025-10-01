@@ -1,27 +1,29 @@
 const mongoose = require('mongoose');
 
 const ResponseSchema = new mongoose.Schema({
-    surveyId: { // Link to the survey form
+    surveyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Survey',
         required: true,
     },
-    enumeratorId: { // Link to the enumerator who collected the data
+    enumeratorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    answers: [{ // Array of submitted answers
+    answers: [{ // Array to store transcribed/validated answers
         questionId: mongoose.Schema.Types.ObjectId,
-        value: String, // Can store transcribed voice text, numbers, or selected options
+        value: { type: String, required: true }, 
+        questionText: String, // For easy review on the dashboard
     }],
-    paradata: { // Metadata captured by the mobile app (crucial for data quality)
+    paradata: { // Metadata for quality assurance
         gpsCoordinates: {
             latitude: Number,
             longitude: Number,
         },
         timeTaken: Number, // Total time in seconds
         deviceInfo: String,
+        isFlagged: { type: Boolean, default: false } // AI Quality Flag
     },
     status: {
         type: String,
