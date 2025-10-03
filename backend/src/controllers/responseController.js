@@ -1,17 +1,24 @@
 const Response = require('../models/Response');
+const { translateText } = require('../utils');
 
 // @desc    Submit a new response (data sync from mobile app)
 // @route   POST /api/v1/responses
 // @access  Private
 exports.submitResponse = async (req, res) => {
-    const { surveyId, answers, paradata } = req.body;
+    const { surveyId, answers, paradata , sourceLanguage } = req.body;
     
     // The enumerator ID comes from the authenticated user token
     const enumeratorId = req.user._id;
 
-    if (!surveyId || !answers || !paradata) {
+    if (!surveyId || !answers || !paradata || !sourceLanguage) {
         return res.status(400).json({ message: 'Missing required response fields.' });
     }
+
+    const translatedAnswers = answers.map(answer => ({
+        ...answer,
+        // Translate the answer value before saving it to the database
+        value: translateText(answer.value, sourceLanguage, 'en') // Target language is hardcoded to 'en' (English)
+    }));
 
     try {
         // Here is where the server-side AI validation would run (Future Scope for better quality)
@@ -20,7 +27,7 @@ exports.submitResponse = async (req, res) => {
         const response = await Response.create({
             surveyId,
             enumeratorId,
-            answers,
+            answers : translatedAnswers,
             paradata: {
                 ...paradata,
                 // Simple quality flag example: If survey completed too quickly
@@ -69,3 +76,5 @@ exports.flagResponse = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+

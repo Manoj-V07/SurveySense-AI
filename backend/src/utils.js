@@ -2,6 +2,28 @@
 // UTILITY FUNCTIONS (Reusable helper logic)
 // =======================================================
 
+
+exports.translateText = (text, sourceLang, targetLang = 'en') => {
+    // --- PROTOTYPE SIMULATION ---
+    if (!text || text.trim() === '') return '';
+    if (sourceLang === targetLang) return text;
+    
+    // Simple logic demonstration: assume all text is translated to English
+    console.log(`[TRANSLATION SERVICE]: Translating "${text}" from ${sourceLang} to ${targetLang}`);
+    
+    // Simulate translation for simple text types (expand this dictionary for testing)
+    const translations = {
+        "हाँ": "Yes", // Hindi
+        "नहीं": "No", // Hindi
+        "शेतकरी": "Farmer", // Marathi/Hindi variation
+        "Salaried Employee": "Salaried Employee" // Already English
+    };
+    
+    // Return a translated value or mark it if no simulation is available
+    return translations[text] || `[TRANSLATED: ${text}]`;
+};
+
+
 /**
  * Calculates the total duration of the survey collection.
  * @param {object} paradata - Contains timestamps and duration info from mobile app.
